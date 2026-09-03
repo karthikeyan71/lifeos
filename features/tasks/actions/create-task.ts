@@ -1,5 +1,6 @@
 "use server";
 
+import { createClient } from "@/lib/supabase/server";
 import { db } from "@/db";
 import { tasks } from "@/db/schema";
 import { createTaskSchema } from "../schemas/task-schema";
@@ -7,6 +8,23 @@ import { createTaskSchema } from "../schemas/task-schema";
 export async function createTask(input: unknown) {
   const validated = createTaskSchema.safeParse(input);
 
+  // Connecting with supabse
+  const supabase = await createClient();
+
+  // Getting the user from supabase
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // Don't allow unauthenticated users to create tasks
+  if (!user) {
+    return {
+      success: false,
+      error: "You must be logged in",
+    };
+  }
+
+  // Validating the input against the schema
   if (!validated.success) {
     return {
       success: false,
@@ -17,7 +35,7 @@ export async function createTask(input: unknown) {
   const task = await db
     .insert(tasks)
     .values({
-      userId: "00000000-0000-0000-0000-000000000000",
+      userId: user.id,
       title: validated.data.title,
       description: validated.data.description,
       priority: validated.data.priority,
