@@ -12,6 +12,7 @@ import brandMark from "@/public/brand/lifeos-mark.png";
 const newsreader = Newsreader({ subsets: ["latin"], weight: ["400", "500"] });
 
 const signupSchema = z.object({
+  name: z.string().trim().min(1, "Name is required"),
   email: z.string().trim().min(1, "Email is required").email("Enter a valid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
@@ -103,10 +104,11 @@ function ShieldIcon() {
 export default function SignupPage() {
   const router = useRouter();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({});
+  const [fieldErrors, setFieldErrors] = useState<{ name?: string; email?: string; password?: string }>({});
   const [formError, setFormError] = useState("");
   const [formNotice, setFormNotice] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -119,11 +121,12 @@ export default function SignupPage() {
     setFormError("");
     setFormNotice("");
 
-    const validated = signupSchema.safeParse({ email, password });
+    const validated = signupSchema.safeParse({ name, email, password });
 
     if (!validated.success) {
       const errors = validated.error.flatten().fieldErrors;
       setFieldErrors({
+        name: errors.name?.[0],
         email: errors.email?.[0],
         password: errors.password?.[0],
       });
@@ -134,7 +137,11 @@ export default function SignupPage() {
     setIsSubmitting(true);
 
     const supabase = createClient();
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { name: validated.data.name } },
+    });
 
     setIsSubmitting(false);
 
@@ -199,6 +206,25 @@ export default function SignupPage() {
             </div>
 
             <form onSubmit={handleSubmit} noValidate className="flex w-full flex-col gap-6">
+              <div className="flex flex-col gap-1.5">
+                <div className="flex items-center justify-between">
+                  <label htmlFor="name" className="text-[13px] font-semibold tracking-[0.005em] text-[#162c26]">
+                    Name
+                  </label>
+                  <span className="text-[12px] tracking-[0.02em] text-[#727875]">Required</span>
+                </div>
+                <input
+                  id="name"
+                  type="text"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  placeholder="Your name"
+                  autoComplete="name"
+                  className="h-11 w-full rounded-lg border border-[#e3dfda] bg-white px-3.5 text-[14px] text-[#1a1c1a] outline-none focus:border-[#2c423b] focus:ring-1 focus:ring-[#2c423b]"
+                />
+                {fieldErrors.name && <p className="text-[12px] text-[#b3462c]">{fieldErrors.name}</p>}
+              </div>
+
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center justify-between">
                   <label htmlFor="email" className="text-[13px] font-semibold tracking-[0.005em] text-[#162c26]">

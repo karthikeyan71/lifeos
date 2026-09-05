@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { updateTaskStatus } from "@/features/tasks/actions/complete-task";
+import { deleteTask } from "@/features/tasks/actions/delete-task";
 import { TaskFormPanel } from "./task-form-panel";
 
 export type TaskCardData = {
@@ -65,6 +66,10 @@ export function TaskCard({ task }: { task: TaskCardData }) {
   const router = useRouter();
   const [isUpdating, setIsUpdating] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
 
   const isCompleted = task.status === "completed";
 
@@ -73,6 +78,21 @@ export function TaskCard({ task }: { task: TaskCardData }) {
     await updateTaskStatus(task.id, isCompleted ? "todo" : "completed");
     router.refresh();
     setIsUpdating(false);
+  }
+
+  async function handleDelete() {
+    setIsDeleting(true);
+    setDeleteError("");
+
+    const result = await deleteTask(task.id);
+
+    if (!result.success) {
+      setIsDeleting(false);
+      setDeleteError(result.error ?? "Something went wrong");
+      return;
+    }
+
+    router.refresh();
   }
 
   if (isEditing) {
@@ -166,18 +186,72 @@ export function TaskCard({ task }: { task: TaskCardData }) {
             Edit
           </button>
         )}
-        <button
-          type="button"
-          aria-label="More options"
-          title="More options (coming soon)"
-          disabled
-          className="flex size-6 items-center justify-center rounded-[4px] text-[#605e5a]"
-        >
-          <span className="size-3">
-            <DotsIcon />
-          </span>
-        </button>
+        <div className="relative">
+          <button
+            type="button"
+            aria-label="More options"
+            onClick={() => setIsMenuOpen((value) => !value)}
+            className="flex size-6 items-center justify-center rounded-[4px] text-[#605e5a] hover:bg-[#f4f3f1]"
+          >
+            <span className="size-3">
+              <DotsIcon />
+            </span>
+          </button>
+
+          {isMenuOpen && (
+            <>
+              <button
+                type="button"
+                aria-label="Close menu"
+                className="fixed inset-0 z-10 cursor-default"
+                onClick={() => setIsMenuOpen(false)}
+              />
+              <div className="absolute right-0 top-full z-20 mt-1 w-36 overflow-hidden rounded-lg border border-[#c2c8c4]/40 bg-white shadow-lg">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setIsConfirmingDelete(true);
+                  }}
+                  className="flex w-full items-center px-3 py-2 text-left text-[13px] font-medium text-[#b3462c] hover:bg-[#ffdad6]/30"
+                >
+                  Delete task
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
+
+      {isConfirmingDelete && (
+        <div className="fixed inset-0 z-30 flex items-center justify-center bg-black/40 p-4">
+          <div className="w-full max-w-sm rounded-xl bg-white p-6 shadow-xl">
+            <h2 className="text-[16px] font-semibold text-[#1a1c1a]">Delete task?</h2>
+            <p className="pt-2 text-[13px] text-[#605e5a]">
+              &ldquo;{task.title}&rdquo; will be permanently deleted. This can&apos;t be undone.
+            </p>
+            {deleteError && <p className="pt-2 text-[13px] text-[#b3462c]">{deleteError}</p>}
+            <div className="flex justify-end gap-2 pt-5">
+              <button
+                type="button"
+                onClick={() => setIsConfirmingDelete(false)}
+                disabled={isDeleting}
+                className="flex h-9 items-center justify-center rounded-lg px-4 text-[13px] font-medium text-[#605e5a] hover:bg-[#f4f3f1]"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleDelete}
+                disabled={isDeleting}
+                className="flex h-9 items-center justify-center rounded-lg bg-[#b3462c] px-4 text-[13px] font-semibold text-white disabled:opacity-60"
+              >
+                {isDeleting ? "Deleting..." : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

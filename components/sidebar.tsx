@@ -109,7 +109,7 @@ export function Sidebar({
   const isDashboardActive = pathname === "/dashboard" && !isTasksActive;
 
   return (
-    <aside className="hidden w-64 shrink-0 flex-col justify-between border-r border-[#e7e5e4]/80 bg-[#faf9f6] px-4 py-6 sm:flex">
+    <aside className="hidden h-full w-64 shrink-0 flex-col justify-between overflow-y-auto border-r border-[#e7e5e4]/80 bg-[#faf9f6] px-4 py-6 sm:flex">
       <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between px-2">
           <div className="flex items-center gap-2.5">
