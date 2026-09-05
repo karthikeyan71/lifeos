@@ -1,5 +1,23 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Reminder notifications
+
+Task / goal / habit reminders are delivered as Web Push notifications. Copy
+`.env.example` to `.env.local` and fill in:
+
+1. **VAPID keys** — run `npx web-push generate-vapid-keys` once. Put the public
+   key in **both** `VAPID_PUBLIC_KEY` and `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, the
+   private key in `VAPID_PRIVATE_KEY`, and a contact URL in `VAPID_SUBJECT`
+   (e.g. `mailto:you@example.com`).
+2. **`CRON_SECRET`** — any random string. The dispatch endpoint
+   (`GET /api/reminders/dispatch`) requires `Authorization: Bearer <CRON_SECRET>`.
+
+`vercel.json` registers a cron that calls the endpoint every minute (Vercel
+sends the `CRON_SECRET` automatically). Per-minute crons need a Vercel **Pro**
+plan; on **Hobby** lower the frequency or trigger the endpoint from an external
+scheduler. Each user opts their devices in from **Settings → Reminder
+notifications**.
+
 ## Getting Started
 
 First, run the development server:
