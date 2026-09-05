@@ -59,20 +59,6 @@ function ArrowRightIcon() {
   );
 }
 
-function ChevronLeftIcon() {
-  return (
-    <svg viewBox="0 0 12 12" fill="none" className="size-full">
-      <path
-        d="M7.5 2 3.5 6l4 4"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 function ShieldIcon() {
   return (
     <svg viewBox="0 0 12 14" fill="none" className="size-full">
@@ -148,16 +134,6 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-full flex-col bg-[#faf9f6]">
       <div className="sticky top-0 z-10 flex items-center gap-2 border-b border-[#efeeeb] bg-[#faf9f6]/80 px-4 py-3 backdrop-blur-md sm:hidden">
-        <button
-          type="button"
-          onClick={() => router.back()}
-          aria-label="Go back"
-          className="flex size-9 items-center justify-center text-[#424845]"
-        >
-          <span className="size-3.5">
-            <ChevronLeftIcon />
-          </span>
-        </button>
         <Image src={brandMark} alt="" width={24} height={24} className="rounded-md" />
         <span className="font-semibold text-[#162c26] tracking-[-0.02em]">LifeOS</span>
       </div>
@@ -301,25 +277,6 @@ export default function LoginPage() {
           </div>
         </div>
       </main>
-
-      <footer className="hidden w-full flex-col items-center gap-1 py-8 sm:flex">
-        <div className="flex items-center gap-3">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.05em] text-[#424845]">
-            Privacy Policy
-          </span>
-          <span className="size-1 rounded-full bg-[#c2c8c4]" />
-          <span className="text-[11px] font-semibold uppercase tracking-[0.05em] text-[#424845]">
-            Terms of Service
-          </span>
-          <span className="size-1 rounded-full bg-[#c2c8c4]" />
-          <span className="text-[11px] font-semibold uppercase tracking-[0.05em] text-[#424845]">
-            Security
-          </span>
-        </div>
-        <p className="text-[12px] tracking-[0.02em] text-[#605e5a]">
-          © {new Date().getFullYear()} LifeOS. Crafted for digital quietude and intentional focus.
-        </p>
-      </footer>
     </div>
   );
 }

@@ -1,13 +1,9 @@
-import { createClient } from "@/lib/supabase/server";
+import { getAuthUser } from "@/lib/supabase/auth";
 import { getTasks } from "@/features/tasks/queries/get-tasks";
 import { TasksView } from "./_components/tasks-view";
 
 export default async function TasksPage() {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getAuthUser();
 
   if (!user) {
     return null;

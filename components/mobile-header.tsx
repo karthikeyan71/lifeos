@@ -25,7 +25,9 @@ export function MobileHeader({
       ? "Goals"
       : pathname.startsWith("/dashboard/habits")
         ? "Habits"
-        : "Dashboard";
+        : pathname.startsWith("/dashboard/insights")
+          ? "Insights"
+          : "Dashboard";
   const initials = (userName || userEmail).slice(0, 2).toUpperCase();
 
   return (

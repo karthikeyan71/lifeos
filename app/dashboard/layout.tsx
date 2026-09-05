@@ -1,7 +1,5 @@
-import { createClient } from "@/lib/supabase/server";
-import { getTasks } from "@/features/tasks/queries/get-tasks";
-import { getGoals } from "@/features/goals/queries/get-goals";
-import { getHabits } from "@/features/habits/queries/get-habits";
+import { getAuthUser } from "@/lib/supabase/auth";
+import { getNavCounts } from "@/features/dashboard/queries/get-nav-counts";
 import { Sidebar } from "@/components/sidebar";
 import { MobileNav } from "@/components/mobile-nav";
 import { MobileHeader } from "@/components/mobile-header";
@@ -9,26 +7,13 @@ import { MobileHeader } from "@/components/mobile-header";
 export default async function DashboardLayout({
   children,
 }: LayoutProps<"/dashboard">) {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getAuthUser();
 
   if (!user) {
     return null;
   }
 
-  const [tasks, goals, habits] = await Promise.all([
-    getTasks(user.id),
-    getGoals(user.id),
-    getHabits(user.id),
-  ]);
-  const activeTaskCount = tasks.filter(
-    (task) => task.status !== "completed" && task.status !== "cancelled",
-  ).length;
-  const activeGoalCount = goals.filter((goal) => goal.status === "active").length;
-  const activeHabitCount = habits.filter((habit) => habit.isActive).length;
+  const { activeTaskCount, activeGoalCount, activeHabitCount } = await getNavCounts(user.id);
   const userName = typeof user.user_metadata?.name === "string" ? user.user_metadata.name : "";
   const userEmail = user.email ?? "";
 
