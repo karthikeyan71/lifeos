@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Newsreader } from "next/font/google";
 import { logout } from "@/features/auth/actions/logout";
@@ -27,7 +28,9 @@ export function MobileHeader({
         ? "Habits"
         : pathname.startsWith("/dashboard/insights")
           ? "Insights"
-          : "Dashboard";
+          : pathname.startsWith("/dashboard/settings")
+            ? "Settings"
+            : "Dashboard";
   const initials = (userName || userEmail).slice(0, 2).toUpperCase();
 
   return (
@@ -72,6 +75,13 @@ export function MobileHeader({
                 </p>
                 <p className="truncate text-[11px] text-[#78716c]">{userEmail}</p>
               </div>
+              <Link
+                href="/dashboard/settings"
+                onClick={() => setIsMenuOpen(false)}
+                className="block border-b border-[#e7e5e4]/70 px-3.5 py-2.5 text-[13px] font-medium text-[#1c1917] hover:bg-[#f5f5f4]"
+              >
+                Settings
+              </Link>
               <form action={logout}>
                 <button
                   type="submit"

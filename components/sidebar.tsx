@@ -201,12 +201,14 @@ export function Sidebar({
   const isGoalsActive = pathname.startsWith("/dashboard/goals");
   const isHabitsActive = pathname.startsWith("/dashboard/habits");
   const isInsightsActive = pathname.startsWith("/dashboard/insights");
+  const isSettingsActive = pathname.startsWith("/dashboard/settings");
   const isDashboardActive =
     pathname === "/dashboard" &&
     !isTasksActive &&
     !isGoalsActive &&
     !isHabitsActive &&
-    !isInsightsActive;
+    !isInsightsActive &&
+    !isSettingsActive;
 
   return (
     <aside className="hidden h-full w-64 shrink-0 flex-col justify-between overflow-y-auto border-r border-[#e7e5e4]/80 bg-[#faf9f6] px-4 py-6 sm:flex">
@@ -337,15 +339,19 @@ export function Sidebar({
 
           <div className="my-2 border-t border-[#e7e5e4]/70" />
 
-          <div
-            aria-disabled
-            className="flex cursor-not-allowed items-center gap-3 rounded-lg px-3 py-2.5 text-[13.5px] text-[#a8a29e]"
+          <Link
+            href="/dashboard/settings"
+            className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-[13.5px] ${
+              isSettingsActive
+                ? "bg-[#e7e5e4]/60 font-medium text-[#2c423b] shadow-sm"
+                : "text-[#57534e] hover:bg-[#e7e5e4]/40"
+            }`}
           >
             <span className="size-4">
               <GearIcon />
             </span>
             Settings
-          </div>
+          </Link>
         </nav>
       </div>
 

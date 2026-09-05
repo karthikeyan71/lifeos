@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 type ReminderFieldProps = {
   id: string;
@@ -12,22 +12,27 @@ type ReminderFieldProps = {
 };
 
 /**
+ * Reads the browser's notification permission without an SSR mismatch: the
+ * server snapshot is `null`, so the first client render matches, then the real
+ * value ("granted" / "denied" / "default" / "unsupported") takes over.
+ */
+function subscribe() {
+  return () => {};
+}
+
+function getPermissionSnapshot(): NotificationPermission | "unsupported" {
+  return "Notification" in window ? Notification.permission : "unsupported";
+}
+
+/**
  * Optional reminder picker shared by the task / goal / habit forms. When a time
  * is set but the browser has not granted notification permission, it points the
  * user at Settings — the reminder is still saved either way.
  */
 export function ReminderField({ id, value, onChange, disabled }: ReminderFieldProps) {
-  const [permission, setPermission] = useState<NotificationPermission | "unsupported">("default");
+  const permission = useSyncExternalStore(subscribe, getPermissionSnapshot, () => null);
 
-  useEffect(() => {
-    if (typeof window === "undefined" || !("Notification" in window)) {
-      setPermission("unsupported");
-      return;
-    }
-    setPermission(Notification.permission);
-  }, []);
-
-  const showHint = value !== "" && permission !== "granted";
+  const showHint = value !== "" && permission !== null && permission !== "granted";
 
   return (
     <div className="flex flex-col gap-1.5">
