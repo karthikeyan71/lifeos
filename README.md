@@ -12,11 +12,11 @@ Task / goal / habit reminders are delivered as Web Push notifications. Copy
 2. **`CRON_SECRET`** — any random string. The dispatch endpoint
    (`GET /api/reminders/dispatch`) requires `Authorization: Bearer <CRON_SECRET>`.
 
-`vercel.json` registers a cron that calls the endpoint every minute (Vercel
-sends the `CRON_SECRET` automatically). Per-minute crons need a Vercel **Pro**
-plan; on **Hobby** lower the frequency or trigger the endpoint from an external
-scheduler. Each user opts their devices in from **Settings → Reminder
-notifications**.
+Nothing is scheduled automatically. Point a scheduler of your choice at the
+dispatch endpoint (e.g. every minute) with the bearer header — an external cron
+service, a GitHub Actions schedule, or add a `vercel.json` `crons` entry (Vercel
+then sends `CRON_SECRET` for you; per-minute needs a Pro plan). Each user opts
+their devices in from **Settings → Reminder notifications**.
 
 ## Getting Started
 
