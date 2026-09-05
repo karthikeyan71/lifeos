@@ -1,5 +1,5 @@
 "use client";
-
+// sidebar code
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -12,10 +12,42 @@ const newsreader = Newsreader({ subsets: ["latin"], weight: ["500"] });
 function GridIcon() {
   return (
     <svg viewBox="0 0 16 16" fill="none" className="size-full">
-      <rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
-      <rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
-      <rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
-      <rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
+      <rect
+        x="2"
+        y="2"
+        width="5"
+        height="5"
+        rx="1"
+        stroke="currentColor"
+        strokeWidth="1.4"
+      />
+      <rect
+        x="9"
+        y="2"
+        width="5"
+        height="5"
+        rx="1"
+        stroke="currentColor"
+        strokeWidth="1.4"
+      />
+      <rect
+        x="2"
+        y="9"
+        width="5"
+        height="5"
+        rx="1"
+        stroke="currentColor"
+        strokeWidth="1.4"
+      />
+      <rect
+        x="9"
+        y="9"
+        width="5"
+        height="5"
+        rx="1"
+        stroke="currentColor"
+        strokeWidth="1.4"
+      />
     </svg>
   );
 }
@@ -23,8 +55,22 @@ function GridIcon() {
 function CheckSquareIcon() {
   return (
     <svg viewBox="0 0 16 16" fill="none" className="size-full">
-      <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M5 8.2 7 10.2 11 6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      <rect
+        x="2"
+        y="2"
+        width="12"
+        height="12"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="1.4"
+      />
+      <path
+        d="M5 8.2 7 10.2 11 6"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -33,7 +79,12 @@ function CompassIcon() {
   return (
     <svg viewBox="0 0 16 16" fill="none" className="size-full">
       <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M10.2 5.8 8.9 8.9l-3.1 1.3 1.3-3.1 3.1-1.3Z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+      <path
+        d="M10.2 5.8 8.9 8.9l-3.1 1.3 1.3-3.1 3.1-1.3Z"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -41,8 +92,20 @@ function CompassIcon() {
 function RepeatIcon() {
   return (
     <svg viewBox="0 0 16 16" fill="none" className="size-full">
-      <path d="M3 7V5.5A2.5 2.5 0 0 1 5.5 3H12M12 3l-2-2M12 3l-2 2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M13 9v1.5A2.5 2.5 0 0 1 10.5 13H4M4 13l2 2M4 13l2-2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M3 7V5.5A2.5 2.5 0 0 1 5.5 3H12M12 3l-2-2M12 3l-2 2"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M13 9v1.5A2.5 2.5 0 0 1 10.5 13H4M4 13l2 2M4 13l2-2"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -50,8 +113,21 @@ function RepeatIcon() {
 function CalendarIcon() {
   return (
     <svg viewBox="0 0 16 16" fill="none" className="size-full">
-      <rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M2 6.5h12M5 2v2.5M11 2v2.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <rect
+        x="2"
+        y="3"
+        width="12"
+        height="11"
+        rx="1.5"
+        stroke="currentColor"
+        strokeWidth="1.4"
+      />
+      <path
+        d="M2 6.5h12M5 2v2.5M11 2v2.5"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
@@ -59,7 +135,12 @@ function CalendarIcon() {
 function BarChartIcon() {
   return (
     <svg viewBox="0 0 16 16" fill="none" className="size-full">
-      <path d="M3 13.5V8M8 13.5V3M13 13.5V10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <path
+        d="M3 13.5V8M8 13.5V3M13 13.5V10"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
@@ -81,8 +162,20 @@ function GearIcon() {
 function LogoutIcon() {
   return (
     <svg viewBox="0 0 16 16" fill="none" className="size-full">
-      <path d="M6.5 2H4a1.5 1.5 0 0 0-1.5 1.5v9A1.5 1.5 0 0 0 4 14h2.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M10.5 11 14 8l-3.5-3M14 8H6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M6.5 2H4a1.5 1.5 0 0 0-1.5 1.5v9A1.5 1.5 0 0 0 4 14h2.5"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M10.5 11 14 8l-3.5-3M14 8H6"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -120,8 +213,16 @@ export function Sidebar({
       <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between px-2">
           <div className="flex items-center gap-2.5">
-            <Image src={sidebarLogo} alt="" width={28} height={28} className="rounded-lg shadow-sm" />
-            <span className={`${newsreader.className} text-[20px] font-medium tracking-[-0.02em] text-[#2c423b]`}>
+            <Image
+              src={sidebarLogo}
+              alt=""
+              width={28}
+              height={28}
+              className="rounded-lg shadow-sm"
+            />
+            <span
+              className={`${newsreader.className} text-[20px] font-medium tracking-[-0.02em] text-[#2c423b]`}
+            >
               LifeOS
             </span>
           </div>
@@ -257,7 +358,9 @@ export function Sidebar({
             <span className="truncate text-[12px] font-semibold text-[#1c1917]">
               {userName || "LifeOS user"}
             </span>
-            <span className="truncate text-[11px] text-[#78716c]">{userEmail}</span>
+            <span className="truncate text-[11px] text-[#78716c]">
+              {userEmail}
+            </span>
           </div>
         </div>
         <form action={logout}>
