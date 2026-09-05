@@ -22,6 +22,9 @@ export const createHabitSchema = z.object({
   endDate: z.string().date().optional(),
 
   isActive: z.boolean().default(true),
+
+  // Optional one-shot reminder as an ISO 8601 instant (UTC from the client).
+  reminderAt: z.iso.datetime().optional(),
 });
 
 export type CreateHabitInput = z.infer<typeof createHabitSchema>;

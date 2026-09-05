@@ -19,6 +19,9 @@ export const createTaskSchema = z.object({
 
   dueDate: z.string().date().optional(),
 
+  // Optional one-shot reminder as an ISO 8601 instant (UTC from the client).
+  reminderAt: z.iso.datetime().optional(),
+
   categoryId: z.uuid().optional(),
 
   goalId: z.uuid().optional(),

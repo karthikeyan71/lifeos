@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { Newsreader } from "next/font/google";
 import { createHabit } from "@/features/habits/actions/create-habit";
 import { updateHabit } from "@/features/habits/actions/update-habit";
+import { ReminderField } from "@/features/reminders/components/reminder-field";
+import { isoFromDateTimeLocalValue, toDateTimeLocalValue } from "@/lib/datetime";
 
 const newsreader = Newsreader({ subsets: ["latin"], weight: ["400", "500"] });
 
@@ -26,6 +28,7 @@ type HabitFormPanelProps = {
     startDate: string | null;
     endDate: string | null;
     isActive: boolean;
+    reminderAt: string | null;
   };
   onClose: () => void;
 };

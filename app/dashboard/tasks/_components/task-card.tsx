@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { updateTaskStatus } from "@/features/tasks/actions/complete-task";
 import { deleteTask } from "@/features/tasks/actions/delete-task";
+import { formatReminder } from "@/lib/datetime";
 import { TaskFormPanel } from "./task-form-panel";
 
 export type TaskCardData = {
@@ -14,6 +15,7 @@ export type TaskCardData = {
   status: "todo" | "in_progress" | "completed" | "cancelled";
   scheduledDate: string | null;
   dueDate: string | null;
+  reminderAt: Date | string | null;
   completedAt: Date | string | null;
 };
 
@@ -48,6 +50,20 @@ function ClockIcon() {
     <svg viewBox="0 0 12 12" fill="none" className="size-full">
       <circle cx="6" cy="6" r="5" stroke="currentColor" strokeWidth="1.2" />
       <path d="M6 3.2V6l2 1.2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function BellIcon() {
+  return (
+    <svg viewBox="0 0 12 12" fill="none" className="size-full">
+      <path
+        d="M3 5a3 3 0 0 1 6 0c0 2 .8 2.7 1 3H2c.2-.3 1-1 1-3Z"
+        stroke="currentColor"
+        strokeWidth="1.1"
+        strokeLinejoin="round"
+      />
+      <path d="M5 10.2a1 1 0 0 0 2 0" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
     </svg>
   );
 }
@@ -106,6 +122,7 @@ export function TaskCard({ task }: { task: TaskCardData }) {
           priority: task.priority,
           scheduledDate: task.scheduledDate,
           dueDate: task.dueDate,
+          reminderAt: task.reminderAt ? new Date(task.reminderAt).toISOString() : null,
         }}
         onDone={() => setIsEditing(false)}
       />
@@ -114,6 +131,7 @@ export function TaskCard({ task }: { task: TaskCardData }) {
 
   const priorityStyle = priorityStyles[task.priority];
   const dueLabel = task.dueDate ? `Due ${formatDateLabel(task.dueDate)}` : null;
+  const reminderLabel = task.reminderAt ? formatReminder(task.reminderAt) : null;
   const completedLabel = task.completedAt
     ? `Completed ${new Date(task.completedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}`
     : null;
@@ -165,6 +183,15 @@ export function TaskCard({ task }: { task: TaskCardData }) {
                 <ClockIcon />
               </span>
               {dueLabel}
+            </span>
+          )}
+
+          {!isCompleted && reminderLabel && (
+            <span className="flex items-center gap-1 rounded-[4px] bg-[#efeeeb] px-2 py-0.5 text-[11px] font-medium text-[#605e5a]">
+              <span className="size-2.5">
+                <BellIcon />
+              </span>
+              {reminderLabel}
             </span>
           )}
 

@@ -33,6 +33,7 @@ export default async function GoalsPage() {
         status: goal.status,
         startDate: goal.startDate,
         targetDate: goal.targetDate,
+        reminderAt: goal.reminderAt,
       }))}
       milestonesByGoalId={milestonesByGoalId}
     />

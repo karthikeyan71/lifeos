@@ -18,6 +18,9 @@ export const createGoalSchema = z.object({
   startDate: z.string().date().optional(),
 
   targetDate: z.string().date().optional(),
+
+  // Optional one-shot reminder as an ISO 8601 instant (UTC from the client).
+  reminderAt: z.iso.datetime().optional(),
 });
 
 export type CreateGoalInput = z.infer<typeof createGoalSchema>;

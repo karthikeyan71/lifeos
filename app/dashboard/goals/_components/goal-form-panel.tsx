@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { Newsreader } from "next/font/google";
 import { createGoal } from "@/features/goals/actions/create-goal";
 import { updateGoal } from "@/features/goals/actions/update-goal";
+import { ReminderField } from "@/features/reminders/components/reminder-field";
+import { isoFromDateTimeLocalValue, toDateTimeLocalValue } from "@/lib/datetime";
 
 const newsreader = Newsreader({ subsets: ["latin"], weight: ["400", "500"] });
 
@@ -18,6 +20,7 @@ type GoalFormPanelProps = {
     description: string | null;
     startDate: string | null;
     targetDate: string | null;
+    reminderAt: string | null;
   };
   onClose: () => void;
 };
@@ -54,6 +57,9 @@ export function GoalFormPanel({ mode, goalId, initialValues, onClose }: GoalForm
   const [description, setDescription] = useState(initialValues?.description ?? "");
   const [startDate, setStartDate] = useState(initialValues?.startDate ?? "");
   const [targetDate, setTargetDate] = useState(initialValues?.targetDate ?? "");
+  const [reminderAt, setReminderAt] = useState(
+    initialValues?.reminderAt ? toDateTimeLocalValue(initialValues.reminderAt) : "",
+  );
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -80,6 +86,7 @@ export function GoalFormPanel({ mode, goalId, initialValues, onClose }: GoalForm
       description: description || undefined,
       startDate: startDate || undefined,
       targetDate: targetDate || undefined,
+      reminderAt: isoFromDateTimeLocalValue(reminderAt),
     };
 
     const result = mode === "create" ? await createGoal(input) : await updateGoal(goalId!, input);
@@ -207,6 +214,8 @@ export function GoalFormPanel({ mode, goalId, initialValues, onClose }: GoalForm
               />
             </div>
           </div>
+
+          <ReminderField id="goal-reminder" value={reminderAt} onChange={setReminderAt} />
 
           <div className="flex items-start gap-2.5 rounded-lg bg-[#f4f3f1] p-3.5">
             <span className="mt-0.5 size-4 shrink-0 text-[#2c423b]">

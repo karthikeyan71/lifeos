@@ -53,6 +53,7 @@ export async function updateHabit(habitId: string, input: unknown) {
       startDate: parsed.data.startDate ?? null,
       endDate: parsed.data.endDate ?? null,
       isActive: parsed.data.isActive,
+      reminderAt: parsed.data.reminderAt ? new Date(parsed.data.reminderAt) : null,
       updatedAt: new Date(),
     })
     .where(and(eq(habits.id, habitId), eq(habits.userId, user.id)))

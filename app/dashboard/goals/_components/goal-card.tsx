@@ -8,6 +8,7 @@ import { deleteGoal } from "@/features/goals/actions/delete-goal";
 import { createMilestone } from "@/features/milestones/actions/create-milestone";
 import { updateMilestoneStatus } from "@/features/milestones/actions/update-milestone-status";
 import { deleteMilestone } from "@/features/milestones/actions/delete-milestone";
+import { formatReminder } from "@/lib/datetime";
 import { GoalFormPanel } from "./goal-form-panel";
 
 const newsreader = Newsreader({ subsets: ["latin"], weight: ["400", "500"] });
@@ -19,6 +20,7 @@ export type GoalCardData = {
   status: "active" | "completed" | "cancelled";
   startDate: string | null;
   targetDate: string | null;
+  reminderAt: Date | string | null;
 };
 
 export type MilestoneCardData = {
@@ -217,6 +219,11 @@ export function GoalCard({
             </button>
             {goal.targetDate && (
               <span className="text-[12px] text-[#605e5a]">Target {formatDate(goal.targetDate)}</span>
+            )}
+            {goal.reminderAt && (
+              <span className="text-[12px] text-[#605e5a]">
+                Reminder {formatReminder(goal.reminderAt)}
+              </span>
             )}
           </div>
 
@@ -488,6 +495,7 @@ export function GoalCard({
             description: goal.description,
             startDate: goal.startDate,
             targetDate: goal.targetDate,
+            reminderAt: goal.reminderAt ? new Date(goal.reminderAt).toISOString() : null,
           }}
           onClose={() => setIsEditing(false)}
         />

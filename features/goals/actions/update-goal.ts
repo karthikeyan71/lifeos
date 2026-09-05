@@ -37,6 +37,7 @@ export async function updateGoal(goalId: string, input: unknown) {
       status: parsed.data.status,
       startDate: parsed.data.startDate,
       targetDate: parsed.data.targetDate,
+      reminderAt: parsed.data.reminderAt ? new Date(parsed.data.reminderAt) : null,
     })
     .where(and(eq(goals.id, goalId), eq(goals.userId, user.id)))
     .returning();

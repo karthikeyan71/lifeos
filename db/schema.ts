@@ -72,6 +72,11 @@ export const users = pgTable(
     email: text("email").notNull(),
     name: text("name").default(""),
 
+    // IANA timezone (e.g. "Asia/Kolkata"), captured from the browser on the
+    // Settings page. Used to render reminder times and word notifications;
+    // null until the user opens Settings.
+    timezone: text("timezone"),
+
     createdAt: timestamp("created_at", {
       withTimezone: true,
     })
@@ -85,6 +90,42 @@ export const users = pgTable(
       .notNull(),
   },
   (table) => [uniqueIndex("users_email_unique").on(table.email)],
+);
+
+// -----------------------------------------------------------------------------
+// Push Subscriptions
+// -----------------------------------------------------------------------------
+
+export const pushSubscriptions = pgTable(
+  "push_subscriptions",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, {
+        onDelete: "cascade",
+      }),
+
+    endpoint: text("endpoint").notNull(),
+
+    p256dh: text("p256dh").notNull(),
+
+    auth: text("auth").notNull(),
+
+    userAgent: text("user_agent"),
+
+    createdAt: timestamp("created_at", {
+      withTimezone: true,
+    })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    uniqueIndex("push_subscriptions_endpoint_unique").on(table.endpoint),
+
+    index("push_subscriptions_user_id_idx").on(table.userId),
+  ],
 );
 
 // -----------------------------------------------------------------------------
@@ -144,6 +185,11 @@ export const goals = pgTable(
 
     status: goalStatusEnum("status").default("active").notNull(),
 
+    // Optional one-shot reminder. Absolute instant; cleared once sent.
+    reminderAt: timestamp("reminder_at", {
+      withTimezone: true,
+    }),
+
     createdAt: timestamp("created_at", {
       withTimezone: true,
     })
@@ -162,6 +208,8 @@ export const goals = pgTable(
     index("goals_user_status_idx").on(table.userId, table.status),
 
     index("goals_target_date_idx").on(table.targetDate),
+
+    index("goals_reminder_at_idx").on(table.reminderAt),
   ],
 );
 
@@ -254,6 +302,11 @@ export const tasks = pgTable(
       withTimezone: true,
     }),
 
+    // Optional one-shot reminder. Absolute instant; cleared once sent.
+    reminderAt: timestamp("reminder_at", {
+      withTimezone: true,
+    }),
+
     createdAt: timestamp("created_at", {
       withTimezone: true,
     })
@@ -283,6 +336,8 @@ export const tasks = pgTable(
     index("tasks_milestone_id_idx").on(table.milestoneId),
 
     index("tasks_category_id_idx").on(table.categoryId),
+
+    index("tasks_reminder_at_idx").on(table.reminderAt),
   ],
 );
 
@@ -363,6 +418,11 @@ export const habits = pgTable(
 
     isActive: boolean("is_active").default(true).notNull(),
 
+    // Optional one-shot reminder for the next occurrence. Cleared once sent.
+    reminderAt: timestamp("reminder_at", {
+      withTimezone: true,
+    }),
+
     createdAt: timestamp("created_at", {
       withTimezone: true,
     })
@@ -381,6 +441,8 @@ export const habits = pgTable(
     index("habits_user_active_idx").on(table.userId, table.isActive),
 
     index("habits_category_id_idx").on(table.categoryId),
+
+    index("habits_reminder_at_idx").on(table.reminderAt),
   ],
 );
 
