@@ -357,25 +357,6 @@ export default function SignupPage() {
           </div>
         </div>
       </main>
-
-      <footer className="hidden w-full flex-col items-center gap-1 py-8 sm:flex">
-        <div className="flex items-center gap-3">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.05em] text-[#424845]">
-            Privacy Policy
-          </span>
-          <span className="size-1 rounded-full bg-[#c2c8c4]" />
-          <span className="text-[11px] font-semibold uppercase tracking-[0.05em] text-[#424845]">
-            Terms of Service
-          </span>
-          <span className="size-1 rounded-full bg-[#c2c8c4]" />
-          <span className="text-[11px] font-semibold uppercase tracking-[0.05em] text-[#424845]">
-            Security
-          </span>
-        </div>
-        <p className="text-[12px] tracking-[0.02em] text-[#605e5a]">
-          © {new Date().getFullYear()} LifeOS. Crafted for digital quietude and intentional focus.
-        </p>
-      </footer>
     </div>
   );
 }

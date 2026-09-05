@@ -44,16 +44,10 @@ function RepeatIcon() {
   );
 }
 
-function GearIcon() {
+function BarChartIcon() {
   return (
     <svg viewBox="0 0 16 16" fill="none" className="size-full">
-      <circle cx="8" cy="8" r="2.25" stroke="currentColor" strokeWidth="1.3" />
-      <path
-        d="M8 2.2v1.3M8 12.5v1.3M13.8 8h-1.3M3.5 8H2.2M11.9 4.1l-.9.9M5 11l-.9.9M11.9 11.9l-.9-.9M5 5l-.9-.9"
-        stroke="currentColor"
-        strokeWidth="1.3"
-        strokeLinecap="round"
-      />
+      <path d="M3 13.5V8M8 13.5V3M13 13.5V10" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
     </svg>
   );
 }
@@ -71,8 +65,13 @@ export function MobileNav({
   const isTasksActive = pathname.startsWith("/dashboard/tasks");
   const isGoalsActive = pathname.startsWith("/dashboard/goals");
   const isHabitsActive = pathname.startsWith("/dashboard/habits");
+  const isInsightsActive = pathname.startsWith("/dashboard/insights");
   const isHomeActive =
-    pathname === "/dashboard" && !isTasksActive && !isGoalsActive && !isHabitsActive;
+    pathname === "/dashboard" &&
+    !isTasksActive &&
+    !isGoalsActive &&
+    !isHabitsActive &&
+    !isInsightsActive;
 
   return (
     <nav
@@ -142,15 +141,17 @@ export function MobileNav({
         Habits
       </Link>
 
-      <div
-        aria-disabled
-        className="flex min-w-11 cursor-not-allowed flex-col items-center gap-0.5 px-2 py-2 text-[11px] font-semibold text-[#424845]/50"
+      <Link
+        href="/dashboard/insights"
+        className={`flex min-w-11 flex-col items-center gap-0.5 px-2 py-2 text-[11px] font-semibold ${
+          isInsightsActive ? "text-[#162c26]" : "text-[#424845]/70"
+        }`}
       >
         <span className="size-4">
-          <GearIcon />
+          <BarChartIcon />
         </span>
-        Settings
-      </div>
+        Insights
+      </Link>
     </nav>
   );
 }

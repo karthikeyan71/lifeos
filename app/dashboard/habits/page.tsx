@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { getAuthUser } from "@/lib/supabase/auth";
 import { getHabits } from "@/features/habits/queries/get-habits";
 import { getHabitOccurrences } from "@/features/habits/queries/get-habit-occurrences";
 import { getCategories } from "@/features/categories/queries/get-categories";
@@ -8,11 +8,7 @@ import { HabitsView } from "./_components/habits-view";
 import type { HabitWithStats } from "./_components/habit-card";
 
 export default async function HabitsPage() {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getAuthUser();
 
   if (!user) {
     return null;

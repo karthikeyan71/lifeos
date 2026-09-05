@@ -1,15 +1,11 @@
-import { createClient } from "@/lib/supabase/server";
+import { getAuthUser } from "@/lib/supabase/auth";
 import { getGoals } from "@/features/goals/queries/get-goals";
 import { getMilestonesByGoalIds } from "@/features/milestones/queries/get-milestones";
 import { GoalsView } from "./_components/goals-view";
 import type { MilestoneCardData } from "./_components/goal-card";
 
 export default async function GoalsPage() {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getAuthUser();
 
   if (!user) {
     return null;
