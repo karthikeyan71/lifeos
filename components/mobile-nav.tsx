@@ -58,10 +58,21 @@ function GearIcon() {
   );
 }
 
-export function MobileNav({ activeTaskCount }: { activeTaskCount: number }) {
+export function MobileNav({
+  activeTaskCount,
+  activeGoalCount,
+  activeHabitCount,
+}: {
+  activeTaskCount: number;
+  activeGoalCount: number;
+  activeHabitCount: number;
+}) {
   const pathname = usePathname();
   const isTasksActive = pathname.startsWith("/dashboard/tasks");
-  const isHomeActive = pathname === "/dashboard" && !isTasksActive;
+  const isGoalsActive = pathname.startsWith("/dashboard/goals");
+  const isHabitsActive = pathname.startsWith("/dashboard/habits");
+  const isHomeActive =
+    pathname === "/dashboard" && !isTasksActive && !isGoalsActive && !isHabitsActive;
 
   return (
     <nav
@@ -97,29 +108,39 @@ export function MobileNav({ activeTaskCount }: { activeTaskCount: number }) {
         Tasks
       </Link>
 
-      <div
-        aria-disabled
-        className="flex min-w-11 cursor-not-allowed flex-col items-center gap-0.5 px-2 py-2 text-[11px] font-semibold text-[#424845]/50"
+      <Link
+        href="/dashboard/goals"
+        className={`relative flex min-w-11 flex-col items-center gap-0.5 px-2 py-2 text-[11px] font-semibold ${
+          isGoalsActive ? "text-[#162c26]" : "text-[#424845]/70"
+        }`}
       >
-        <span className="size-4">
+        <span className="relative size-4">
           <CompassIcon />
+          {activeGoalCount > 0 && (
+            <span className="absolute -right-2 -top-1.5 flex h-[15px] min-w-[15px] items-center justify-center rounded-full bg-[#e3dfda] px-1 text-[9px] font-semibold text-[#64625f]">
+              {activeGoalCount}
+            </span>
+          )}
         </span>
-        <span className="flex items-center gap-1">
-          Goals <span className="text-[8px] uppercase">Soon</span>
-        </span>
-      </div>
+        Goals
+      </Link>
 
-      <div
-        aria-disabled
-        className="flex min-w-11 cursor-not-allowed flex-col items-center gap-0.5 px-2 py-2 text-[11px] font-semibold text-[#424845]/50"
+      <Link
+        href="/dashboard/habits"
+        className={`relative flex min-w-11 flex-col items-center gap-0.5 px-2 py-2 text-[11px] font-semibold ${
+          isHabitsActive ? "text-[#162c26]" : "text-[#424845]/70"
+        }`}
       >
-        <span className="size-4">
+        <span className="relative size-4">
           <RepeatIcon />
+          {activeHabitCount > 0 && (
+            <span className="absolute -right-2 -top-1.5 flex h-[15px] min-w-[15px] items-center justify-center rounded-full bg-[#e3dfda] px-1 text-[9px] font-semibold text-[#64625f]">
+              {activeHabitCount}
+            </span>
+          )}
         </span>
-        <span className="flex items-center gap-1">
-          Habits <span className="text-[8px] uppercase">Soon</span>
-        </span>
-      </div>
+        Habits
+      </Link>
 
       <div
         aria-disabled

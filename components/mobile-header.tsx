@@ -19,7 +19,13 @@ export function MobileHeader({
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const pageLabel = pathname.startsWith("/dashboard/tasks") ? "Tasks" : "Dashboard";
+  const pageLabel = pathname.startsWith("/dashboard/tasks")
+    ? "Tasks"
+    : pathname.startsWith("/dashboard/goals")
+      ? "Goals"
+      : pathname.startsWith("/dashboard/habits")
+        ? "Habits"
+        : "Dashboard";
   const initials = (userName || userEmail).slice(0, 2).toUpperCase();
 
   return (

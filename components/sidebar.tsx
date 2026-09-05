@@ -88,25 +88,30 @@ function LogoutIcon() {
 }
 
 const soonLinks = [
-  { label: "Goals", icon: CompassIcon },
-  { label: "Habits", icon: RepeatIcon },
   { label: "Calendar", icon: CalendarIcon },
   { label: "Insights", icon: BarChartIcon },
 ];
 
 export function Sidebar({
   activeTaskCount,
+  activeGoalCount,
+  activeHabitCount,
   userName,
   userEmail,
 }: {
   activeTaskCount: number;
+  activeGoalCount: number;
+  activeHabitCount: number;
   userName: string;
   userEmail: string;
 }) {
   const initials = (userName || userEmail).slice(0, 2).toUpperCase();
   const pathname = usePathname();
   const isTasksActive = pathname.startsWith("/dashboard/tasks");
-  const isDashboardActive = pathname === "/dashboard" && !isTasksActive;
+  const isGoalsActive = pathname.startsWith("/dashboard/goals");
+  const isHabitsActive = pathname.startsWith("/dashboard/habits");
+  const isDashboardActive =
+    pathname === "/dashboard" && !isTasksActive && !isGoalsActive && !isHabitsActive;
 
   return (
     <aside className="hidden h-full w-64 shrink-0 flex-col justify-between overflow-y-auto border-r border-[#e7e5e4]/80 bg-[#faf9f6] px-4 py-6 sm:flex">
@@ -154,6 +159,44 @@ export function Sidebar({
             </span>
             <span className="flex size-5 items-center justify-center rounded-full bg-[#e7e5e4] text-[11px] font-semibold text-[#2c423b]">
               {activeTaskCount}
+            </span>
+          </Link>
+
+          <Link
+            href="/dashboard/goals"
+            className={`flex items-center justify-between rounded-lg px-3 py-2.5 text-[13.5px] ${
+              isGoalsActive
+                ? "bg-[#e7e5e4]/60 font-medium text-[#2c423b] shadow-sm"
+                : "text-[#57534e] hover:bg-[#e7e5e4]/40"
+            }`}
+          >
+            <span className="flex items-center gap-3">
+              <span className="size-4">
+                <CompassIcon />
+              </span>
+              Goals
+            </span>
+            <span className="flex size-5 items-center justify-center rounded-full bg-[#e7e5e4] text-[11px] font-semibold text-[#2c423b]">
+              {activeGoalCount}
+            </span>
+          </Link>
+
+          <Link
+            href="/dashboard/habits"
+            className={`flex items-center justify-between rounded-lg px-3 py-2.5 text-[13.5px] ${
+              isHabitsActive
+                ? "bg-[#e7e5e4]/60 font-medium text-[#2c423b] shadow-sm"
+                : "text-[#57534e] hover:bg-[#e7e5e4]/40"
+            }`}
+          >
+            <span className="flex items-center gap-3">
+              <span className="size-4">
+                <RepeatIcon />
+              </span>
+              Habits
+            </span>
+            <span className="flex size-5 items-center justify-center rounded-full bg-[#e7e5e4] text-[11px] font-semibold text-[#2c423b]">
+              {activeHabitCount}
             </span>
           </Link>
 
