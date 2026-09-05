@@ -16,7 +16,6 @@ export async function proxy(request: NextRequest) {
         },
 
         setAll(cookiesToSet) {
-          console.log(cookiesToSet);
           cookiesToSet.forEach(({ name, value, options }) => {
             request.cookies.set(name, value);
 

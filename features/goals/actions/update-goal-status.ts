@@ -3,11 +3,11 @@
 import { eq, and } from "drizzle-orm";
 import { createClient } from "@/lib/supabase/server";
 import { db } from "@/db";
-import { tasks } from "@/db/schema";
+import { goals } from "@/db/schema";
 
-export async function updateTaskStatus(
-  taskId: string,
-  status: "todo" | "in_progress" | "completed" | "cancelled",
+export async function updateGoalStatus(
+  goalId: string,
+  status: "active" | "completed" | "cancelled",
 ) {
   const supabase = await createClient();
 
@@ -22,24 +22,23 @@ export async function updateTaskStatus(
     };
   }
 
-  const [task] = await db
-    .update(tasks)
+  const [goal] = await db
+    .update(goals)
     .set({
       status,
-      completedAt: status === "completed" ? new Date() : null,
     })
-    .where(and(eq(tasks.id, taskId), eq(tasks.userId, user.id)))
+    .where(and(eq(goals.id, goalId), eq(goals.userId, user.id)))
     .returning();
 
-  if (!task) {
+  if (!goal) {
     return {
       success: false,
-      error: "Task not found",
+      error: "Goal not found",
     };
   }
 
   return {
     success: true,
-    task,
+    goal,
   };
 }
