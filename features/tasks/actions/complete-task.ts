@@ -26,6 +26,7 @@ export async function updateTaskStatus(
     .update(tasks)
     .set({
       status,
+      completedAt: status === "completed" ? new Date() : null,
     })
     .where(and(eq(tasks.id, taskId), eq(tasks.userId, user.id)))
     .returning();
