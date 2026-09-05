@@ -8,6 +8,7 @@ import { setHabitActive } from "@/features/habits/actions/set-habit-active";
 import { deleteHabit } from "@/features/habits/actions/delete-habit";
 import type { HabitStats, OccurrenceStatus } from "@/features/habits/lib/stats";
 import { weekdayLabel } from "@/features/habits/lib/dates";
+import { formatReminder } from "@/lib/datetime";
 import { HabitFormPanel, type HabitCategory } from "./habit-form-panel";
 
 const newsreader = Newsreader({ subsets: ["latin"], weight: ["400", "500"] });
@@ -20,6 +21,7 @@ export type HabitWithStats = {
   startDate: string | null;
   endDate: string | null;
   isActive: boolean;
+  reminderAt: Date | string | null;
   categoryId: string | null;
   categoryName: string | null;
   createdAt: string;
@@ -279,6 +281,7 @@ export function HabitCard({
         <span className="text-[12px] text-[#605e5a]">
           {habit.endDate ? `Ends ${formatDate(habit.endDate)}` : "No end date"}
           {habit.frequency === "weekly" && ` · ${stats.weekCompletedCount} this week`}
+          {habit.reminderAt && ` · Reminder ${formatReminder(habit.reminderAt)}`}
         </span>
 
         <div className="flex items-center gap-1">
@@ -348,6 +351,7 @@ export function HabitCard({
             startDate: habit.startDate,
             endDate: habit.endDate,
             isActive: habit.isActive,
+            reminderAt: habit.reminderAt ? new Date(habit.reminderAt).toISOString() : null,
           }}
           onClose={() => setIsEditing(false)}
         />

@@ -29,6 +29,13 @@
       "when": 1788628047553,
       "tag": "0003_sync_name_to_public_users",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1788637033577,
+      "tag": "0004_mixed_guardian",
+      "breakpoints": true
     }
   ]
 }

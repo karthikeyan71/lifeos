@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { Newsreader } from "next/font/google";
 import { createHabit } from "@/features/habits/actions/create-habit";
 import { updateHabit } from "@/features/habits/actions/update-habit";
+import { ReminderField } from "@/features/reminders/components/reminder-field";
+import { isoFromDateTimeLocalValue, toDateTimeLocalValue } from "@/lib/datetime";
 
 const newsreader = Newsreader({ subsets: ["latin"], weight: ["400", "500"] });
 
@@ -26,6 +28,7 @@ type HabitFormPanelProps = {
     startDate: string | null;
     endDate: string | null;
     isActive: boolean;
+    reminderAt: string | null;
   };
   onClose: () => void;
 };
@@ -58,6 +61,9 @@ export function HabitFormPanel({ mode, habitId, categories, initialValues, onClo
   const [startDate, setStartDate] = useState(initialValues?.startDate ?? "");
   const [endDate, setEndDate] = useState(initialValues?.endDate ?? "");
   const [isActive, setIsActive] = useState(initialValues?.isActive ?? true);
+  const [reminderAt, setReminderAt] = useState(
+    initialValues?.reminderAt ? toDateTimeLocalValue(initialValues.reminderAt) : "",
+  );
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -86,6 +92,7 @@ export function HabitFormPanel({ mode, habitId, categories, initialValues, onClo
       startDate: startDate || undefined,
       endDate: endDate || undefined,
       isActive,
+      reminderAt: isoFromDateTimeLocalValue(reminderAt),
     };
 
     const result = mode === "create" ? await createHabit(input) : await updateHabit(habitId!, input);
@@ -283,6 +290,8 @@ export function HabitFormPanel({ mode, habitId, categories, initialValues, onClo
               />
             </div>
           </div>
+
+          <ReminderField id="habit-reminder" value={reminderAt} onChange={setReminderAt} />
 
           {error && (
             <p role="alert" className="text-[13px] font-medium text-[#ba1a1a]">

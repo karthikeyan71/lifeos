@@ -22,6 +22,7 @@ export default async function TasksPage() {
         status: task.status,
         scheduledDate: task.scheduledDate,
         dueDate: task.dueDate,
+        reminderAt: task.reminderAt,
         completedAt: task.completedAt,
       }))}
       greetingName={name}

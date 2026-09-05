@@ -41,6 +41,7 @@ export async function createTask(input: unknown) {
       priority: validated.data.priority,
       scheduledDate: validated.data.scheduledDate,
       dueDate: validated.data.dueDate,
+      reminderAt: validated.data.reminderAt ? new Date(validated.data.reminderAt) : null,
       categoryId: validated.data.categoryId,
       goalId: validated.data.goalId,
       milestoneId: validated.data.milestoneId,

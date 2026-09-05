@@ -4,6 +4,8 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createTask } from "@/features/tasks/actions/create-task";
 import { updateTasks } from "@/features/tasks/actions/update-task";
+import { ReminderField } from "@/features/reminders/components/reminder-field";
+import { isoFromDateTimeLocalValue, toDateTimeLocalValue } from "@/lib/datetime";
 
 type Priority = "low" | "medium" | "high";
 
@@ -16,6 +18,7 @@ type TaskFormPanelProps = {
     priority: Priority;
     scheduledDate: string | null;
     dueDate: string | null;
+    reminderAt: string | null;
   };
   onDone: () => void;
 };
@@ -28,6 +31,9 @@ export function TaskFormPanel({ mode, taskId, initialValues, onDone }: TaskFormP
   const [priority, setPriority] = useState<Priority>(initialValues?.priority ?? "medium");
   const [scheduledDate, setScheduledDate] = useState(initialValues?.scheduledDate ?? "");
   const [dueDate, setDueDate] = useState(initialValues?.dueDate ?? "");
+  const [reminderAt, setReminderAt] = useState(
+    initialValues?.reminderAt ? toDateTimeLocalValue(initialValues.reminderAt) : "",
+  );
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -43,6 +49,7 @@ export function TaskFormPanel({ mode, taskId, initialValues, onDone }: TaskFormP
       priority,
       scheduledDate: scheduledDate || undefined,
       dueDate: dueDate || undefined,
+      reminderAt: isoFromDateTimeLocalValue(reminderAt),
     };
 
     const result =
@@ -135,6 +142,8 @@ export function TaskFormPanel({ mode, taskId, initialValues, onDone }: TaskFormP
           />
         </div>
       </div>
+
+      <ReminderField id="reminderAt" value={reminderAt} onChange={setReminderAt} />
 
       {error && <p className="text-[13px] text-[#b3462c]">{error}</p>}
 

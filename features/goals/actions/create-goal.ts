@@ -37,6 +37,7 @@ export async function createGoal(input: unknown) {
       status: validated.data.status,
       startDate: validated.data.startDate,
       targetDate: validated.data.targetDate,
+      reminderAt: validated.data.reminderAt ? new Date(validated.data.reminderAt) : null,
     })
     .returning();
 

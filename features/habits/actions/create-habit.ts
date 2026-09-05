@@ -55,6 +55,7 @@ export async function createHabit(input: unknown) {
       startDate: validated.data.startDate,
       endDate: validated.data.endDate,
       isActive: validated.data.isActive,
+      reminderAt: validated.data.reminderAt ? new Date(validated.data.reminderAt) : null,
     })
     .returning();
 

@@ -12,6 +12,7 @@ export async function getHabits(userId: string) {
       startDate: habits.startDate,
       endDate: habits.endDate,
       isActive: habits.isActive,
+      reminderAt: habits.reminderAt,
       createdAt: habits.createdAt,
       categoryId: habits.categoryId,
       categoryName: categories.name,

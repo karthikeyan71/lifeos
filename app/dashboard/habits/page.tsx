@@ -45,6 +45,7 @@ export default async function HabitsPage() {
       startDate: habit.startDate,
       endDate: habit.endDate,
       isActive: habit.isActive,
+      reminderAt: habit.reminderAt,
       categoryId: habit.categoryId,
       categoryName: habit.categoryName,
       createdAt: habit.createdAt.toISOString(),

@@ -37,6 +37,7 @@ export async function updateTasks(taskId: string, input: unknown) {
       priority: parsed.data.priority,
       scheduledDate: parsed.data.scheduledDate,
       dueDate: parsed.data.dueDate,
+      reminderAt: parsed.data.reminderAt ? new Date(parsed.data.reminderAt) : null,
       categoryId: parsed.data.categoryId,
       goalId: parsed.data.goalId,
       milestoneId: parsed.data.milestoneId,
