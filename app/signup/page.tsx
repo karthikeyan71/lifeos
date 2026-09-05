@@ -87,20 +87,6 @@ function ChevronLeftIcon() {
   );
 }
 
-function ShieldIcon() {
-  return (
-    <svg viewBox="0 0 12 14" fill="none" className="size-full">
-      <path
-        d="M6 1 1.5 2.75V6.5c0 3 1.9 4.9 4.5 6 2.6-1.1 4.5-3 4.5-6V2.75L6 1Z"
-        stroke="currentColor"
-        strokeWidth="1.1"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 export default function SignupPage() {
   const router = useRouter();
 
@@ -343,17 +329,6 @@ export default function SignupPage() {
                 Log in
               </Link>
             </p>
-          </div>
-
-          <div className="flex items-center gap-3 pt-6">
-            <div className="flex items-center gap-1 text-[12px] tracking-[0.02em] text-[#605e5a]">
-              <span className="size-3">
-                <ShieldIcon />
-              </span>
-              Local Zero-Knowledge Enclave
-            </div>
-            <span className="text-[#c2c8c4]">•</span>
-            <span className="text-[12px] tracking-[0.02em] text-[#605e5a]">v2.4 LTS</span>
           </div>
         </div>
       </main>
